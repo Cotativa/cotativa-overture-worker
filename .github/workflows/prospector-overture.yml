@@ -1,0 +1,73 @@
+name: Prospector Overture
+run-name: "Prospector Overture ${{ inputs.request_id }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      request_id:
+        description: "ID da busca"
+        required: true
+        type: string
+      segment:
+        description: "Segmento"
+        required: true
+        type: string
+      lat:
+        description: "Latitude"
+        required: true
+        type: string
+      lng:
+        description: "Longitude"
+        required: true
+        type: string
+      radius_km:
+        description: "Raio em km"
+        required: true
+        type: string
+      release:
+        description: "Release Overture"
+        required: false
+        default: "2026-09-23.1"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  search:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout Cotativa
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install DuckDB
+        run: python -m pip install --disable-pip-version-check duckdb==1.4.1
+
+      - name: Search Overture Places
+        run: |
+          python scripts/prospector_overture.py             --segment "${{ inputs.segment }}"             --lat "${{ inputs.lat }}"             --lng "${{ inputs.lng }}"             --radius-km "${{ inputs.radius_km }}"             --release "${{ inputs.release }}"             --output "/tmp/prospector-results.json"
+
+      - name: Validate result
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open('/tmp/prospector-results.json',encoding='utf-8'))
+          assert p.get('ok') is True
+          assert isinstance(p.get('results'),list)
+          assert int(p.get('count',0)) == len(p.get('results',[]))
+          print('results',p.get('count',0),'release',p.get('release'))
+          PY
+
+      - name: Upload Prospector artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prospector-${{ inputs.request_id }}
+          path: /tmp/prospector-results.json
+          if-no-files-found: error
+          retention-days: 1
