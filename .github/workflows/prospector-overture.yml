@@ -12,6 +12,11 @@ on:
         description: "Segmento"
         required: true
         type: string
+      search_terms_json:
+        description: "Variações do nicho em JSON"
+        required: false
+        default: "[]"
+        type: string
       lat:
         description: "Latitude"
         required: true
@@ -50,8 +55,10 @@ jobs:
         run: python -m pip install --disable-pip-version-check duckdb==1.4.1
 
       - name: Search Overture Places
+        env:
+          SEARCH_TERMS_JSON: ${{ inputs.search_terms_json }}
         run: |
-          python scripts/prospector_overture.py             --segment "${{ inputs.segment }}"             --lat "${{ inputs.lat }}"             --lng "${{ inputs.lng }}"             --radius-km "${{ inputs.radius_km }}"             --release "${{ inputs.release }}"             --output "/tmp/prospector-results.json"
+          python scripts/prospector_overture.py             --segment "${{ inputs.segment }}"             --search-terms-json "$SEARCH_TERMS_JSON"             --lat "${{ inputs.lat }}"             --lng "${{ inputs.lng }}"             --radius-km "${{ inputs.radius_km }}"             --release "${{ inputs.release }}"             --output "/tmp/prospector-results.json"
 
       - name: Validate result
         run: |
