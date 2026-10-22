@@ -10,6 +10,7 @@ def norm(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", value).strip()
 
 PROFILES = [
+    (["desentupid","desentupimento","encanador","hidraulic","encanamento","esgoto"], ["plumber","plumbing_service","sewer_service","drainage_service","septic_system_service"], ["desentupid","desentupimento","encanador","hidraulic","encanamento","esgoto","plumb","sewer","drain"]),
     (["aquecedor","aquecimento","boiler","gasista"], ["hvac_services","hvac_supplier","water_heater_installation_repair","solar_installation"], ["aquec","boiler","water heater","hvac"]),
     (["energia solar","solar","fotovolta"], ["solar_installation","solar_panel_cleaning","hvac_supplier"], ["solar","fotovolta","energia"]),
     (["paviment","asfalto","asfalt"], ["paving_contractor","general_contractor","construction_company"], ["paviment","asfalt","cbuq","terraplen"]),
@@ -39,9 +40,11 @@ def profile(segment: str):
 def sql_regex(values):
     cleaned = []
     for v in values:
-        v = norm(v).replace(" ", ".*")
-        if v:
-            cleaned.append(re.escape(v))
+        parts = [p for p in norm(v).split() if p]
+        if parts:
+            # Escape each token, not the wildcard between tokens. This lets
+            # "plumbing_service" match taxonomy text serialized with underscores.
+            cleaned.append(".*".join(re.escape(p) for p in parts))
     return "|".join(sorted(set(cleaned)))
 
 def first_list(value):
