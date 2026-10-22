@@ -234,7 +234,7 @@ def main():
         "radius_km": radius,
         "center": {"lat": args.lat, "lng": args.lng},
         "count": len(results),
-        "results": results[:250],
+        "results": results[:500],
     }
     out = Path(args.output)
     out.parent.mkdir(parents=True, exist_ok=True)
