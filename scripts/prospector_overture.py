@@ -10,6 +10,7 @@ def norm(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", value).strip()
 
 PROFILES = [
+    (["dedetiz","detetiz","controle de pragas","controladora de pragas","pragas","exterminador"], ["pest_control_service","pest_control","exterminator"], ["dedetiz","detetiz","controle de pragas","pragas","pest control","exterminator"]),
     (["desentupid","desentupimento","encanador","hidraulic","encanamento","esgoto"], ["plumber","plumbing_service","sewer_service","drainage_service","septic_system_service"], ["desentupid","desentupimento","encanador","hidraulic","encanamento","esgoto","plumb","sewer","drain"]),
     (["aquecedor","aquecimento","boiler","gasista"], ["hvac_services","hvac_supplier","water_heater_installation_repair","solar_installation"], ["aquec","boiler","water heater","hvac"]),
     (["energia solar","solar","fotovolta"], ["solar_installation","solar_panel_cleaning","hvac_supplier"], ["solar","fotovolta","energia"]),
@@ -88,6 +89,7 @@ def score(company):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--segment", required=True)
+    ap.add_argument("--search-terms-json", default="[]")
     ap.add_argument("--lat", type=float, required=True)
     ap.add_argument("--lng", type=float, required=True)
     ap.add_argument("--radius-km", type=float, required=True)
@@ -102,6 +104,23 @@ def main():
     min_lng, max_lng = args.lng-dlng, args.lng+dlng
 
     categories, terms = profile(args.segment)
+    try:
+        extra_terms = json.loads(args.search_terms_json or "[]")
+        if not isinstance(extra_terms, list):
+            extra_terms = []
+    except Exception:
+        extra_terms = []
+    merged_terms = []
+    seen_terms = set()
+    for value in list(terms) + [str(x) for x in extra_terms]:
+        key = norm(value)
+        if not key or key in seen_terms:
+            continue
+        seen_terms.add(key)
+        merged_terms.append(value)
+        if len(merged_terms) >= 20:
+            break
+    terms = merged_terms or terms
     name_rx = sql_regex(terms)
     cat_rx = sql_regex(categories)
     filters = []
