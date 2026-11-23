@@ -1,0 +1,61 @@
+name: Cotativa SiteOne Public Smoke
+
+on:
+  push:
+    branches:
+      - test/actions-free-runner-pilot
+    paths:
+      - .github/workflows/siteone-public-smoke.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cotativa-siteone-public-smoke
+  cancel-in-progress: true
+
+jobs:
+  siteone-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Install SiteOne Crawler
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location 'https://dl.cloudsmith.io/public/janreges/siteone-crawler/setup.deb.sh' | sudo -E bash
+          sudo apt-get install -y --no-install-recommends siteone-crawler-static
+          command -v siteone-crawler
+
+      - name: Audit Cotativa public homepage only
+        shell: bash
+        run: |
+          set -euo pipefail
+          siteone-crawler \
+            --url="https://cotativa.com/" \
+            --device=mobile \
+            --workers=1 \
+            --max-reqs-per-sec=1 \
+            --timeout=8 \
+            --max-visited-urls=3 \
+            --output-json-file="$RUNNER_TEMP/siteone-public-smoke.json" \
+            --no-color
+          test -s "$RUNNER_TEMP/siteone-public-smoke.json"
+
+      - name: Validate schema without publishing results
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = Path(os.environ["RUNNER_TEMP"]) / "siteone-public-smoke.json"
+          data = json.loads(report.read_text(encoding="utf-8"))
+          assert isinstance(data.get("qualityScores"), dict), "qualityScores missing"
+          assert isinstance(data.get("stats"), dict), "stats missing"
+          assert isinstance(data.get("summary"), dict), "summary missing"
+          assert isinstance(data.get("results"), list), "results missing"
+          print("COTATIVA_SITEONE_PUBLIC_SMOKE_OK")
+          print("SiteOne output schema checked; no customer input, no callback, no artifact.")
+          PY

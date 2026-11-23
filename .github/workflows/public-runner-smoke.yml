@@ -1,0 +1,30 @@
+name: Cotativa Public Runner Smoke
+
+on:
+  push:
+    branches:
+      - test/actions-free-runner-pilot
+    paths:
+      - .github/workflows/public-runner-smoke.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-runner-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Verify public runner without credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import sys, platform
+          assert sys.version_info >= (3, 10)
+          print("COTATIVA_PUBLIC_RUNNER_OK")
+          print("Python:", platform.python_version())
+          print("Platform:", platform.system())
+          print("No clients, tokens, secrets or paid services used.")
+          PY
