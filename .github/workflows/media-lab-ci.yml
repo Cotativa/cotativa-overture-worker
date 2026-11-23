@@ -8,12 +8,14 @@ on:
       - "media-lab/**"
       - "tests/test_media_image.py"
       - "video-engine/revideo/**"
+      - "video-engine/hyperframes/**"
       - ".github/workflows/media-lab-ci.yml"
   pull_request:
     paths:
       - "media-lab/**"
       - "tests/test_media_image.py"
       - "video-engine/revideo/**"
+      - "video-engine/hyperframes/**"
       - ".github/workflows/media-lab-ci.yml"
   workflow_dispatch:
 
@@ -71,3 +73,31 @@ jobs:
       - name: Typecheck migrated video engine
         working-directory: video-engine/revideo
         run: npm run typecheck
+
+  hyperframes-source-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.22.0"
+      - name: Validate public HyperFrames engine source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile video-engine/hyperframes/build.py
+          node --check video-engine/hyperframes/master-templates.js
+          node --check video-engine/hyperframes/premium-motion.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          root=Path("video-engine/hyperframes")
+          for name in ("package.json","theme-registry.json","watermark-registry.json",
+                       "master-template-registry.json","icon-pack-registry.json",
+                       "premium-motion-sources.json"):
+              assert isinstance(json.loads((root/name).read_text(encoding="utf-8")), dict), name
+          assert "Cotativa" in (root/"PREMIUM_MOTION.md").read_text(encoding="utf-8")
+          print("HYPERFRAMES_PUBLIC_SOURCE_CHECK_OK")
+          print("Synthetic CI only; customer video rendering excluded.")
+          PY
