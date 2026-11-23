@@ -1,0 +1,124 @@
+{
+  "schema": 2,
+  "version": "real-template-2",
+  "engine": "hyperframes",
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "templates": [
+    {
+      "id": "saas_dashboard",
+      "label": "SaaS Dashboard",
+      "family": "product_ui",
+      "energy": "medium",
+      "best_for": [
+        "site",
+        "seo",
+        "analytics",
+        "automation",
+        "google",
+        "product"
+      ],
+      "structure": "browser_dashboard_integrations"
+    },
+    {
+      "id": "editorial_light",
+      "label": "Editorial Premium",
+      "family": "editorial",
+      "energy": "calm_bold",
+      "best_for": [
+        "authority",
+        "branding",
+        "positioning",
+        "strategy",
+        "content"
+      ],
+      "structure": "magazine_columns_quote_timeline"
+    },
+    {
+      "id": "dark_neon_tech",
+      "label": "Dark Neon Tech",
+      "family": "tech",
+      "energy": "medium_high",
+      "best_for": [
+        "ai",
+        "technology",
+        "automation",
+        "data",
+        "innovation"
+      ],
+      "structure": "terminal_network_hud"
+    },
+    {
+      "id": "corporate_minimal",
+      "label": "Corporate Minimal",
+      "family": "corporate",
+      "energy": "calm",
+      "best_for": [
+        "services",
+        "institutional",
+        "consulting",
+        "business"
+      ],
+      "structure": "clean_services_metrics_process"
+    },
+    {
+      "id": "performance_ads",
+      "label": "Performance Ads",
+      "family": "performance",
+      "energy": "high",
+      "best_for": [
+        "ads",
+        "sales",
+        "leads",
+        "conversion",
+        "offer"
+      ],
+      "structure": "bold_ad_metrics_funnel"
+    },
+    {
+      "id": "social_cards",
+      "label": "Social Cards",
+      "family": "social",
+      "energy": "medium_high",
+      "best_for": [
+        "social",
+        "whatsapp",
+        "instagram",
+        "engagement",
+        "community"
+      ],
+      "structure": "stacked_feed_chat_cards"
+    },
+    {
+      "id": "case_before_after",
+      "label": "Case Before / After",
+      "family": "case",
+      "energy": "medium",
+      "best_for": [
+        "case",
+        "result",
+        "problem",
+        "solution",
+        "growth"
+      ],
+      "structure": "split_before_after_results"
+    },
+    {
+      "id": "explainer_vertical",
+      "label": "Explainer Vertical",
+      "family": "educational",
+      "energy": "medium",
+      "best_for": [
+        "guide",
+        "how_to",
+        "tips",
+        "education",
+        "steps"
+      ],
+      "structure": "numbered_steps_diagram_checklist"
+    }
+  ]
+}
