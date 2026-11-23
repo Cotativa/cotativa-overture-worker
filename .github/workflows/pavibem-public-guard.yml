@@ -1,0 +1,44 @@
+name: Pavibem Public Guard
+
+on:
+  push:
+    branches:
+      - main
+      - feature/pavibem-public-guard
+    paths:
+      - "pavibem-public/**"
+      - ".github/workflows/pavibem-public-guard.yml"
+  pull_request:
+    paths:
+      - "pavibem-public/**"
+      - ".github/workflows/pavibem-public-guard.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pavibem-public-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pure-finance-and-calendar:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["8.5"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring
+          coverage: none
+      - name: PHP lint
+        run: |
+          php -l pavibem-public/src/pavibem_pure.php
+          php -l pavibem-public/tests/pavibem_public_smoke.php
+      - name: Public synthetic regression
+        run: php pavibem-public/tests/pavibem_public_smoke.php
