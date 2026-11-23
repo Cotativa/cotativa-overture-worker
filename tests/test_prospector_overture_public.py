@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from prospector_overture import norm, profile, sql_regex, parse_json, first_list, haversine, score
+from prospector_overture import norm, profile, sql_regex, parse_json, first_list, haversine, score, validate_input
 
 
 class ProspectorPublicTests(unittest.TestCase):
@@ -39,6 +39,19 @@ class ProspectorPublicTests(unittest.TestCase):
     def test_score_bounds(self):
         self.assertEqual(score({}), 64)
         self.assertLessEqual(score({"phone": "000", "email": "x", "address": "Public", "confidence": 1}), 96)
+
+    def test_safe_dispatch_values(self):
+        validate_input("Aquecedores", -23.55, -46.63, 10.0, "2026-09-23.1")
+        for args in [
+            ("", -23.55, -46.63, 10.0, "2026-09-23.1"),
+            ("Aquecedores", float("nan"), -46.63, 10.0, "2026-09-23.1"),
+            ("Aquecedores", -91.0, -46.63, 10.0, "2026-09-23.1"),
+            ("Aquecedores", -23.55, 181.0, 10.0, "2026-09-23.1"),
+            ("Aquecedores", -23.55, -46.63, 0.0, "2026-09-23.1"),
+            ("Aquecedores", -23.55, -46.63, 10.0, "2026-09-23.1'); DROP TABLE x;--"),
+        ]:
+            with self.subTest(args=args), self.assertRaises(ValueError):
+                validate_input(*args)
 
 
 if __name__ == "__main__":
