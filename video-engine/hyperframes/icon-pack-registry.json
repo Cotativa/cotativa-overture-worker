@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "version": "icon-router-1",
+  "packs": [
+    {
+      "id": "lucide",
+      "label": "Lucide",
+      "repository": "lucide-icons/lucide",
+      "npm": "@iconify-json/lucide"
+    },
+    {
+      "id": "tabler",
+      "label": "Tabler Icons",
+      "repository": "tabler/tabler-icons",
+      "npm": "@iconify-json/tabler"
+    },
+    {
+      "id": "phosphor",
+      "label": "Phosphor",
+      "repository": "phosphor-icons/core",
+      "npm": "@iconify-json/ph"
+    },
+    {
+      "id": "heroicons",
+      "label": "Heroicons",
+      "repository": "tailwindlabs/heroicons",
+      "npm": "@iconify-json/heroicons"
+    },
+    {
+      "id": "carbon",
+      "label": "Carbon Icons",
+      "repository": "carbon-design-system/carbon",
+      "npm": "@iconify-json/carbon"
+    }
+  ],
+  "policy": "Only semantic icons needed by the current render are materialized as local SVG files. Brand icons remain from the existing vetted Tabler assets."
+}
