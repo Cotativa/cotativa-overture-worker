@@ -34,11 +34,29 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring
+          extensions: mbstring, zip, iconv
           coverage: none
       - name: PHP lint
         run: |
           php -l pavibem-public/src/pavibem_pure.php
+          php -l pavibem-public/src/pavibem_reports.php
           php -l pavibem-public/tests/pavibem_public_smoke.php
+          php -l pavibem-public/tests/pavibem_report_smoke.php
       - name: Public synthetic regression
         run: php pavibem-public/tests/pavibem_public_smoke.php
+      - name: PDF and XLSX for synthetic 80-worker crew
+        run: |
+          set -euo pipefail
+          php pavibem-public/tests/pavibem_report_smoke.php pdf > /tmp/pav-report.pdf
+          php pavibem-public/tests/pavibem_report_smoke.php pdf-interno > /tmp/pav-internal.pdf
+          php pavibem-public/tests/pavibem_report_smoke.php xlsx > /tmp/pav-report.xlsx
+          test "$(head -c 5 /tmp/pav-report.pdf)" = "%PDF-"
+          unzip -t /tmp/pav-report.xlsx | grep -Fq "No errors detected"
+          test "$(grep -a -c '/Type /Page /Parent' /tmp/pav-report.pdf)" -ge 3
+          grep -aFq 'SEM VALORES FINANCEIROS' /tmp/pav-report.pdf
+          grep -aFq 'DOMINGOS' /tmp/pav-report.pdf
+          grep -aFq 'FERIADOS' /tmp/pav-report.pdf
+          ! grep -aFq '4200,00' /tmp/pav-report.pdf
+          grep -aFq 'CONTROLE INTERNO' /tmp/pav-internal.pdf
+          grep -aFq '4.200,00' /tmp/pav-internal.pdf
+          echo "PAVIBEM_PUBLIC_PDF_XLSX_OK"
