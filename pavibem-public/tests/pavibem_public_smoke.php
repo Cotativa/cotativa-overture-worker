@@ -12,7 +12,7 @@ function close_to(float $actual,float $expected,string $reason): void {
 must(pav_decimal("R$ 1.600,00")===1600.0,'pt-BR money');
 must(pav_decimal("200,50")===200.5,'fractional money');
 must(pav_decimal(null)===null,'nullable value');
-try { pav_decimal("não informado"); } catch (RuntimeException $e) { $invalidNumeric=true; }
+try { pav_decimal("12-3"); } catch (RuntimeException $e) { $invalidNumeric=true; }
 must(!empty($invalidNumeric),'invalid value must be rejected');
 
 must(pav_date("2026-02-28")==="2026-02-28",'valid date');
