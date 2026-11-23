@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "version": "watermark-1",
+  "default": {
+    "enabled": true,
+    "mode": "subtle",
+    "variant": "auto",
+    "position": "center"
+  },
+  "modes": {
+    "off": {
+      "opacity": 0
+    },
+    "subtle": {
+      "opacity": 0.055
+    },
+    "medium": {
+      "opacity": 0.085
+    },
+    "brand_heavy": {
+      "opacity": 0.13
+    }
+  },
+  "variants": {
+    "auto": {
+      "label": "Automático por template"
+    },
+    "full_logo": {
+      "label": "Logo completo"
+    },
+    "symbol": {
+      "label": "Símbolo Cotativa"
+    },
+    "wordmark": {
+      "label": "Wordmark Cotativa"
+    }
+  },
+  "auto_variant_by_template": {
+    "saas_dashboard": "full_logo",
+    "editorial_light": "wordmark",
+    "dark_neon_tech": "symbol",
+    "corporate_minimal": "wordmark",
+    "performance_ads": "symbol",
+    "social_cards": "symbol",
+    "case_before_after": "full_logo",
+    "explainer_vertical": "full_logo"
+  },
+  "asset": "assets/img/logo-cotativa-horizontal-claro.webp",
+  "render_policy": "Use the official Cotativa horizontal logo alpha as a CSS mask. Watermark color adapts to light/dark themes; opacity is controlled independently from the source artwork."
+}
