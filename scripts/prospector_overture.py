@@ -86,6 +86,21 @@ def score(company):
     if company.get("confidence", 0) >= .7: value += 4
     return max(0, min(96, value))
 
+def validate_input(segment: str, lat: float, lng: float, radius_km: float, release: str):
+    """Reject malformed dispatch values before any network or SQL operation."""
+    if not segment.strip() or len(segment) > 190:
+        raise ValueError("Invalid search segment")
+    if not all(math.isfinite(x) for x in (lat, lng, radius_km)):
+        raise ValueError("Coordinates and radius must be finite")
+    if not (-90 <= lat <= 90 and -180 <= lng <= 180):
+        raise ValueError("Coordinates out of range")
+    if not (0 < radius_km <= 100):
+        raise ValueError("Search radius out of range")
+    # The release is interpolated into read_parquet's SQL path.
+    if not re.fullmatch(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}\\.[0-9]+", release):
+        raise ValueError("Invalid Overture release")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--segment", required=True)
@@ -96,6 +111,9 @@ def main():
     ap.add_argument("--release", default="2026-09-23.1")
     ap.add_argument("--output", required=True)
     args = ap.parse_args()
+    validate_input(args.segment, args.lat, args.lng, args.radius_km, args.release)
+    if len(args.search_terms_json) > 6000:
+        raise ValueError("Search term list too large")
 
     radius = max(2.0, min(30.0, args.radius_km))
     dlat = radius / 111.2
