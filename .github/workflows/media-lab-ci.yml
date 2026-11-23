@@ -1,0 +1,103 @@
+name: Cotativa Media Lab — Public CI
+on:
+  push:
+    branches:
+      - main
+      - feature/public-media-engine-lab
+    paths:
+      - "media-lab/**"
+      - "tests/test_media_image.py"
+      - "video-engine/revideo/**"
+      - "video-engine/hyperframes/**"
+      - ".github/workflows/media-lab-ci.yml"
+  pull_request:
+    paths:
+      - "media-lab/**"
+      - "tests/test_media_image.py"
+      - "video-engine/revideo/**"
+      - "video-engine/hyperframes/**"
+      - ".github/workflows/media-lab-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: media-lab-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  synthetic-image-video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install public test-only image library
+        run: python -m pip install --disable-pip-version-check Pillow==11.3.0
+      - name: Run offline image composition tests
+        run: python -m unittest discover -s tests -p test_media_image.py -v
+      - name: Render a synthetic image and short demo MP4
+        shell: bash
+        run: |
+          set -euo pipefail
+          python media-lab/image_composer.py --manifest media-lab/fixtures/demo_image.json --out "$RUNNER_TEMP/demo-image.png"
+          if ! command -v ffmpeg >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends ffmpeg
+          fi
+          ffmpeg -hide_banner -loglevel error -y -loop 1 -framerate 12 -i "$RUNNER_TEMP/demo-image.png" \
+            -t 2 -vf "scale=720:900,format=yuv420p" -c:v libx264 -preset ultrafast -movflags +faststart "$RUNNER_TEMP/demo-video.mp4"
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          base=Path(os.environ["RUNNER_TEMP"])
+          assert (base/"demo-image.png").stat().st_size > 20000
+          assert (base/"demo-video.mp4").stat().st_size > 5000
+          print("PUBLIC_MEDIA_RENDER_SMOKE_OK")
+          print("Synthetic previews only. No customer assets or artifacts uploaded.")
+          PY
+  revideo-typescript:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.22.0"
+      - name: Install Revideo dependencies
+        working-directory: video-engine/revideo
+        run: npm install --no-audit --no-fund
+      - name: Typecheck migrated video engine
+        working-directory: video-engine/revideo
+        run: npm run typecheck
+
+  hyperframes-source-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.22.0"
+      - name: Validate public HyperFrames engine source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile video-engine/hyperframes/build.py
+          node --check video-engine/hyperframes/master-templates.js
+          node --check video-engine/hyperframes/premium-motion.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          root=Path("video-engine/hyperframes")
+          for name in ("package.json","theme-registry.json","watermark-registry.json",
+                       "master-template-registry.json","icon-pack-registry.json",
+                       "premium-motion-sources.json"):
+              assert isinstance(json.loads((root/name).read_text(encoding="utf-8")), dict), name
+          assert "Cotativa" in (root/"PREMIUM_MOTION.md").read_text(encoding="utf-8")
+          print("HYPERFRAMES_PUBLIC_SOURCE_CHECK_OK")
+          print("Synthetic CI only; customer video rendering excluded.")
+          PY
