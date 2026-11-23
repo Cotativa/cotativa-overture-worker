@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "name": "Cotativa Premium Motion Library",
+  "version": "premium-motion-2",
+  "policy": {
+    "runtime_engine": "HyperFrames",
+    "paid_video_api_required": false,
+    "third_party_code_vendored": false,
+    "strategy": "Native Cotativa GSAP/HTML motion recipes inspired by documented public patterns; official HyperFrames shader package remains the only runtime motion dependency."
+  },
+  "sources": [
+    {
+      "id": "hyperframes",
+      "repository": "heygen-com/hyperframes",
+      "license": "Apache-2.0",
+      "usage": "runtime engine, registry concepts, shader-transitions package"
+    },
+    {
+      "id": "inematds-hyperframes",
+      "repository": "inematds/hyperframes",
+      "license": "MIT",
+      "usage": "reference patterns for short-form, promo, captions and HTML+GSAP composition structure"
+    },
+    {
+      "id": "video-shotcraft",
+      "repository": "Vincentwei1021/video-shotcraft",
+      "usage": "reference patterns for cinematic shot recipes, speed ramps, transitions, captions and motion workbench organization"
+    },
+    {
+      "id": "remotion-ui",
+      "repository": "riaz37/remotion-ui",
+      "license": "MIT",
+      "usage": "reference taxonomy for scenes, primitives, charts, device mockups, transitions, shaders and motion components"
+    }
+  ],
+  "packs": {
+    "cinematic": 9,
+    "editorial": 9,
+    "performance": 9,
+    "product": 10,
+    "ambient": 6
+  },
+  "shaders": 14,
+  "recipes": 45
+}
