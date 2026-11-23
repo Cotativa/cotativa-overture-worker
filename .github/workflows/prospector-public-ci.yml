@@ -1,0 +1,42 @@
+name: Prospector Overture — Public CI
+
+on:
+  push:
+    branches:
+      - test/prospector-public-ci
+      - main
+    paths:
+      - "scripts/prospector_overture.py"
+      - "tests/test_prospector_overture_public.py"
+      - ".github/workflows/prospector-public-ci.yml"
+  pull_request:
+    paths:
+      - "scripts/prospector_overture.py"
+      - "tests/test_prospector_overture_public.py"
+      - ".github/workflows/prospector-public-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prospector-public-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python-public-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: requirements-ci.txt
+      - name: Install tested DuckDB runtime
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Syntax and pure logic tests (offline)
+        run: |
+          python -m py_compile scripts/prospector_overture.py
+          python -m unittest discover -s tests -p test_prospector_overture_public.py -v
