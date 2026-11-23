@@ -97,7 +97,7 @@ def validate_input(segment: str, lat: float, lng: float, radius_km: float, relea
     if not (0 < radius_km <= 100):
         raise ValueError("Search radius out of range")
     # The release is interpolated into read_parquet's SQL path.
-    if not re.fullmatch(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}\\.[0-9]+", release):
+    if not re.fullmatch(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}\.[0-9]+", release):
         raise ValueError("Invalid Overture release")
 
 
