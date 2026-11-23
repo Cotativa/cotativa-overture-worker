@@ -1,0 +1,68 @@
+name: Cotativa SiteOne Owner-Site Worker
+
+on:
+  push:
+    branches:
+      - test/actions-free-runner-pilot
+    paths:
+      - .github/workflows/siteone-owner-site.yml
+      - scripts/siteone_public_summary.py
+      - tests/test_siteone_public_summary.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cotativa-siteone-owner-site
+  cancel-in-progress: true
+
+jobs:
+  scan-owned-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout public worker
+        uses: actions/checkout@v4
+
+      - name: Run summary privacy tests
+        run: python3 -m unittest discover -s tests -p test_siteone_public_summary.py -v
+
+      - name: Install SiteOne Crawler
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location 'https://dl.cloudsmith.io/public/janreges/siteone-crawler/setup.deb.sh' | sudo -E bash
+          sudo apt-get install -y --no-install-recommends siteone-crawler-static
+          command -v siteone-crawler
+
+      - name: Audit public Cotativa homepage (fixed target)
+        shell: bash
+        run: |
+          set -euo pipefail
+          siteone-crawler \
+            --url="https://cotativa.com/" \
+            --device=mobile \
+            --workers=1 \
+            --max-reqs-per-sec=1 \
+            --timeout=8 \
+            --max-visited-urls=10 \
+            --output-json-file="/tmp/cotativa-siteone-raw.json" \
+            --no-color
+          test -s /tmp/cotativa-siteone-raw.json
+
+      - name: Build non-sensitive public aggregate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/siteone_public_summary.py --input /tmp/cotativa-siteone-raw.json --output /tmp/cotativa-siteone-summary.json
+          test -s /tmp/cotativa-siteone-summary.json
+          rm -f /tmp/cotativa-siteone-raw.json
+
+      - name: Upload public aggregate only
+        uses: actions/upload-artifact@v4
+        with:
+          name: cotativa-public-siteone-summary
+          path: /tmp/cotativa-siteone-summary.json
+          retention-days: 1
+          if-no-files-found: error
