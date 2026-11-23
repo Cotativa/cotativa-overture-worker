@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "version": "real-theme-1",
+  "themes": [
+    {
+      "id": "enterprise_blue",
+      "label": "Enterprise Blue",
+      "mode": "dark",
+      "colors": {
+        "bg": "#061625",
+        "bg2": "#0B263A",
+        "surface": "#102F46",
+        "surface2": "#173D58",
+        "primary": "#3B82F6",
+        "accent": "#7DD3FC",
+        "text": "#F7FBFF",
+        "muted": "#B6CBD9",
+        "line": "rgba(125,211,252,.20)"
+      }
+    },
+    {
+      "id": "ocean_blue",
+      "label": "Ocean Blue",
+      "mode": "dark",
+      "colors": {
+        "bg": "#041B2D",
+        "bg2": "#063653",
+        "surface": "#0A4567",
+        "surface2": "#0D587B",
+        "primary": "#00A3FF",
+        "accent": "#47D7FF",
+        "text": "#F4FBFF",
+        "muted": "#A9CEDF",
+        "line": "rgba(71,215,255,.22)"
+      }
+    },
+    {
+      "id": "cotativa_navy",
+      "label": "Cotativa Navy",
+      "mode": "dark",
+      "colors": {
+        "bg": "#071520",
+        "bg2": "#0A2233",
+        "surface": "#123247",
+        "surface2": "#19445F",
+        "primary": "#2E6D98",
+        "accent": "#4EDC84",
+        "text": "#F7FAFB",
+        "muted": "#AFC2CE",
+        "line": "rgba(78,220,132,.20)"
+      }
+    },
+    {
+      "id": "emerald_green",
+      "label": "Emerald Green",
+      "mode": "dark",
+      "colors": {
+        "bg": "#071B17",
+        "bg2": "#0D2B24",
+        "surface": "#123B31",
+        "surface2": "#195244",
+        "primary": "#38D996",
+        "accent": "#87F2C3",
+        "text": "#F5FFFB",
+        "muted": "#B2D5C8",
+        "line": "rgba(135,242,195,.20)"
+      }
+    },
+    {
+      "id": "clean_light",
+      "label": "Clean Light",
+      "mode": "light",
+      "colors": {
+        "bg": "#F4F7FB",
+        "bg2": "#EAF0F7",
+        "surface": "#FFFFFF",
+        "surface2": "#E5EEF8",
+        "primary": "#1E5AA8",
+        "accent": "#0EA5E9",
+        "text": "#0D1B2A",
+        "muted": "#5E7182",
+        "line": "rgba(13,27,42,.12)"
+      }
+    },
+    {
+      "id": "graphite_cyan",
+      "label": "Graphite Cyan",
+      "mode": "dark",
+      "colors": {
+        "bg": "#101317",
+        "bg2": "#171D23",
+        "surface": "#1D252D",
+        "surface2": "#26323C",
+        "primary": "#26C6DA",
+        "accent": "#8BE9FD",
+        "text": "#F8FAFC",
+        "muted": "#A7B1BC",
+        "line": "rgba(139,233,253,.18)"
+      }
+    }
+  ]
+}
