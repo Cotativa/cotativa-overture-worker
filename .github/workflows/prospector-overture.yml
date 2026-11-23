@@ -54,11 +54,36 @@ jobs:
       - name: Install DuckDB
         run: python -m pip install --disable-pip-version-check duckdb==1.4.1
 
-      - name: Search Overture Places
+      - name: Validate public job ID
         env:
-          SEARCH_TERMS_JSON: ${{ inputs.search_terms_json }}
+          REQUEST_ID: ${{ inputs.request_id }}
         run: |
-          python scripts/prospector_overture.py             --segment "${{ inputs.segment }}"             --search-terms-json "$SEARCH_TERMS_JSON"             --lat "${{ inputs.lat }}"             --lng "${{ inputs.lng }}"             --radius-km "${{ inputs.radius_km }}"             --release "${{ inputs.release }}"             --output "/tmp/prospector-results.json"
+          python - <<'PY'
+          import os
+          import re
+          if not re.fullmatch(r"[0-9]{14}-[a-f0-9]{16}", os.environ["REQUEST_ID"]):
+              raise SystemExit("Invalid request ID")
+          PY
+
+      - name: Search Overture Places
+        shell: bash
+        env:
+          SEARCH_SEGMENT: ${{ inputs.segment }}
+          SEARCH_TERMS_JSON: ${{ inputs.search_terms_json }}
+          SEARCH_LAT: ${{ inputs.lat }}
+          SEARCH_LNG: ${{ inputs.lng }}
+          SEARCH_RADIUS_KM: ${{ inputs.radius_km }}
+          OVERTURE_RELEASE: ${{ inputs.release }}
+        run: |
+          set -euo pipefail
+          python scripts/prospector_overture.py \
+            --segment "$SEARCH_SEGMENT" \
+            --search-terms-json "$SEARCH_TERMS_JSON" \
+            --lat "$SEARCH_LAT" \
+            --lng "$SEARCH_LNG" \
+            --radius-km "$SEARCH_RADIUS_KM" \
+            --release "$OVERTURE_RELEASE" \
+            --output "/tmp/prospector-results.json"
 
       - name: Validate result
         run: |
