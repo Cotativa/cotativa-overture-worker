@@ -1,0 +1,234 @@
+# Third-Party Notices
+
+## TeamDay AI — Business Tycoon
+
+Parts of the DOT Office rendering and pathfinding in `admin/assets/dot-office-teamday-kit.js` and `admin/assets/dot-office-engine.js` were adapted from concepts and rendering primitives in:
+
+- Project: TeamDay-AI/business-tycoon
+- License: MIT
+- Copyright: (c) 2026 TeamDay AI
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+## Gaurav2693 — AI Office
+
+The DOT Office v4.11.0 Three.js visual foundation in `admin/assets/dot-office-three.js`
+adapts procedural office architecture, character construction, animated workstation,
+lighting and camera concepts from:
+
+- Project: Gaurav2693/ai-office
+- License: MIT
+- Copyright: (c) 2026 Gaurav Mishra
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Three.js
+
+The v4.11.0 renderer loads Three.js 0.183.2 at runtime from jsDelivr with
+an unpkg fallback.
+
+- Project: mrdoob/three.js
+- License: MIT
+- Copyright: (c) 2010-2026 three.js authors
+
+Three.js is distributed under the MIT License.
+
+
+## Quaternius — Universal Base Characters
+
+The DOT Office Living 3D v4.12.0 uses the Standard free Universal Base
+Characters as the rigged adult humanoid foundation.
+
+- Author: Quaternius
+- Source: Universal Base Characters
+- License: CC0 1.0 Universal / Public Domain Dedication
+- Files adapted into Cotativa:
+  - admin/assets/dot-office/models/human_male.gltf
+  - admin/assets/dot-office/models/human_male.bin
+  - admin/assets/dot-office/models/human_female.gltf
+  - admin/assets/dot-office/models/human_female.bin
+
+The source glTF materials were simplified in Cotativa to avoid shipping large
+texture maps; geometry, skeleton and skinning remain from the CC0 source.
+
+## Kenney — Furniture Kit
+
+The DOT Office Living 3D v4.12.0 includes selected self-contained GLB models
+from Kenney's Furniture Kit, sourced from the Hidencod/tge-assets CC0 mirror.
+
+- Author: Kenney
+- Pack: Furniture Kit
+- License: CC0 1.0 Universal / Public Domain
+- Runtime folder: admin/assets/dot-office/models/furniture/
+
+Included categories include desks, desk chairs, displays, laptop, plants,
+bookcase, lounge furniture, lamps, tables, television, rug, doorway, drawers,
+trash can and coffee machine.
+
+## NafisRayan — Animate Rigged Humanoid No Blender
+
+Cotativa used the repository's documented Quaternius pipeline and bundled CC0
+source files to obtain the Universal Base Characters files used above.
+No Mixamo assets are included in Cotativa v4.12.0.
+
+- Repository: NafisRayan/Animate-Rigged-Humanoid-No-Blender
+- Character/source assets: Quaternius CC0
+
+
+## three-pathfinding
+
+Cotativa Office Engine 2 (v4.17.0) uses three-pathfinding 1.3.0 as the
+runtime navigation-mesh/pathfinding engine.
+
+- Project: donmccurdy/three-pathfinding
+- License: MIT
+- Copyright: (c) 2017 Don McCurdy
+- Runtime module: https://cdn.jsdelivr.net/npm/three-pathfinding@1.3.0/dist/three-pathfinding.module.js
+
+The MIT License (MIT)
+
+Copyright (c) 2017 Don McCurdy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+## Hermes Virtual Office
+
+The Office Engine 2 duty resolver and seat-approach architecture were designed
+with reference to the duty-priority, navigation-grid and settling concepts
+published by Hermes Virtual Office. Cotativa does not use Hermes as its agent
+runtime; Cotativa jobs, workers and queues remain authoritative.
+
+- Project: JuniorXcoder/hermes-virtual-office
+- License: MIT
+- Copyright: (c) 2026 Hermes Virtual Office Contributors
+
+MIT License
+
+Copyright (c) 2026 Hermes Virtual Office Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+## House Planner
+
+Cotativa Office Engine 3 (v4.18.0) uses the plan-driven scene architecture,
+metric wall/opening/furniture model, orthographic/isometric camera strategy and
+material/lighting ideas of House Planner as the foundation for the new Cotativa
+office renderer. The Cotativa master plan, sector layout, furniture geometry,
+branding and runtime integration are implemented specifically for Cotativa.
+
+- Project: egmalt/house-planner
+- License: MIT
+- Copyright: (c) 2026 egmalt
+
+MIT License
+
+Copyright (c) 2026 egmalt
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Quaternius Animated Men / Animated Women
+
+Cotativa Office Engine 3 v4.23.0 uses six rigged civilian characters from the
+Quaternius Animated Men Pack and Animated Women Pack. The assets are loaded at
+runtime from a commit-pinned GitHub mirror and provide embedded Idle, Walk,
+Sitting and Standing animation clips used by the Cotativa agent state machine.
+
+- Creator: Quaternius
+- License: CC0 1.0 Universal / Public Domain Dedication
+- Source packs:
+  https://poly.pizza/bundle/Animated-Men-Pack-DAC9SDgMQT
+  https://poly.pizza/bundle/Animated-Women-Pack-HHSKxnk1mY
+- Runtime mirror: MrArun005/3D-Games-AmusementPark
+- Pinned source ref: 2d827a479ef7a44938372ca07d24c0faffb43b1d
+- Files: civilian_casual.glb, civilian_man.glb, civilian_longsleeve.glb,
+  civilian_suit.glb, civilian_woman.glb, civilian_woman2.glb
+
+CC0 permits use, modification and redistribution for any purpose, including
+commercial use. No 3D assets from The Delegation are copied into Cotativa.

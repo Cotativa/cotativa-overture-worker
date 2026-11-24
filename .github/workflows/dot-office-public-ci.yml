@@ -1,0 +1,71 @@
+name: Dot Office — Public QA
+
+on:
+  pull_request:
+    paths:
+      - 'dot-office/**'
+      - '.github/workflows/dot-office-public-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'dot-office/**'
+      - '.github/workflows/dot-office-public-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dot-office-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  public-engine-regression:
+    name: Dot Office — source and state machine
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: ESM syntax + 14-seat agent regression
+        run: npm --prefix dot-office run verify
+      - name: Validate demo has only synthetic input
+        run: |
+          set -euo pipefail
+          ! grep -RIE '(ghp_[a-zA-Z0-9]{20,}|github_pat_[a-zA-Z0-9_]{30,}|AIza[a-zA-Z0-9_-]{25,}|sk-[a-zA-Z0-9]{28,})' dot-office/assets dot-office/demo dot-office/tests
+          ! grep -E '(fetch\(|XMLHttpRequest|/admin/api/)' dot-office/demo/demo.js
+          echo DOT_OFFICE_PUBLIC_SOURCE_OK
+
+  visual-webgl-regression:
+    name: Dot Office — desktop + mobile WebGL
+    needs: public-engine-regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test runtime
+        working-directory: dot-office
+        run: |
+          npm install --no-save --no-audit --no-fund playwright
+          npx playwright install --with-deps chromium
+      - name: Serve synthetic standalone demo
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dot-office >/tmp/dot-office-http.log 2>&1 &
+          echo $! >/tmp/dot-office-http.pid
+          sleep 2
+          curl --fail --silent http://127.0.0.1:8765/demo/ >/dev/null
+      - name: Validate WebGL in desktop and mobile emulation
+        working-directory: dot-office
+        run: node scripts/visual-smoke.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dot-office-synthetic-screenshots
+          path: dot-office/artifacts/*.png
+          if-no-files-found: ignore
+          retention-days: 1

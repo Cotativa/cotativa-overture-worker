@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="170" height="170" viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skin" x1="44" y1="29" x2="107" y2="100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6DD3BA"/>
+      <stop offset="1" stop-color="#338D78"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="74" y1="88" x2="112" y2="138" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#234A55"/>
+      <stop offset="1" stop-color="#132C34"/>
+    </linearGradient>
+    <filter id="shadow" x="24" y="17" width="124" height="143" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="7" stdDeviation="5" flood-opacity=".24"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <ellipse cx="88" cy="145" rx="45" ry="8" fill="#08171D" fill-opacity=".25"/>
+
+    <!-- seated body, angled toward the monitor on the left -->
+    <path d="M84 91C101 91 113 101 114 118L116 137H84C70 137 62 127 65 114L69 100C71 94 76 91 84 91Z" fill="url(#shirt)"/>
+    <path d="M91 133H118L127 143H101L91 133Z" fill="#17353D"/>
+    <path d="M78 128L70 146" stroke="#183942" stroke-width="11" stroke-linecap="round"/>
+    <path d="M110 133L122 146" stroke="#183942" stroke-width="11" stroke-linecap="round"/>
+    <ellipse cx="66" cy="149" rx="13" ry="5" fill="#10262D"/>
+    <ellipse cx="126" cy="149" rx="13" ry="5" fill="#10262D"/>
+
+    <!-- head in 3/4 side profile: looking left/down at the screen -->
+    <path d="M52 53C55 35 70 24 88 25C106 26 119 39 119 56V70C119 85 107 97 92 97H73C58 97 47 85 49 70L52 53Z" fill="url(#skin)"/>
+    <path d="M55 47C63 32 79 24 95 27C108 29 117 38 120 49C105 44 89 43 73 46C66 48 60 49 55 47Z" fill="#173841" fill-opacity=".2"/>
+    <ellipse cx="64" cy="64" rx="4.5" ry="5.5" fill="#07161B"/>
+    <circle cx="62.5" cy="62.5" r="1.4" fill="#DFF7F1"/>
+    <path d="M51 74C58 79 64 80 69 79" stroke="#216354" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- neck + forward working arm toward keyboard -->
+    <path d="M79 91V84" stroke="#2C7D6A" stroke-width="10" stroke-linecap="round"/>
+    <path d="M76 104C66 106 57 112 50 119" stroke="#214751" stroke-width="11" stroke-linecap="round"/>
+    <path d="M50 119L38 123" stroke="#214751" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="35" cy="124" r="5" fill="#3C9B84"/>
+
+    <!-- Cotativa chest mark -->
+    <rect x="91" y="107" width="14" height="14" rx="4" fill="#EAF8F3"/>
+    <path d="M95 110L102 114L95 118V110Z" fill="#54B89D"/>
+
+    <!-- subtle cap/tech fin -->
+    <path d="M65 34C76 26 91 23 105 28L99 35C88 32 76 34 68 39L65 34Z" fill="#0B222A"/>
+    <path d="M98 28L105 20L110 24L103 32L98 28Z" fill="#54B89D"/>
+  </g>
+</svg>
