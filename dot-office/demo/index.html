@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>DOT Office Premium Diorama — Demo pública Cotativa</title>
+  <meta name="description" content="Demonstração visual independente do escritório 3D Dot Office com dados inteiramente sintéticos.">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+  {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.183.2/examples/jsm/"}}
+  </script>
+</head>
+<body>
+<main class="app dot-office-v4" data-dot-office data-demo-only="true">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">COTATIVA / DOT OFFICE / V4.29.48</p>
+      <h1>Um escritório vivo, em miniatura.</h1>
+      <p class="intro">Uma prévia pública do motor 3D da Cotativa: 14 colaboradores, departamentos e animações vinculadas a estados de exemplo.</p>
+    </div>
+    <div class="demo-label"><span class="indicator"></span> DEMONSTRAÇÃO FICTÍCIA</div>
+  </header>
+  <div class="notice" role="status">Esta página usa <strong>somente dados sintéticos</strong>. Não consulta o painel, clientes, tarefas reais, banco ou APIs privadas da Cotativa.</div>
+  <div class="toolbar" aria-label="Controles de demonstração">
+    <button type="button" data-demo-mode="working">Simular equipe trabalhando</button>
+    <button type="button" data-demo-mode="idle">Simular pausa</button>
+    <button type="button" data-dot-camera-reset>Visão geral</button>
+    <button type="button" data-dot-navmesh-toggle aria-pressed="false">Circulação: OFF</button>
+    <span class="render-health" data-demo-render-state>Preparando visualização 3D...</span>
+  </div>
+  <section class="dot-workspace-canvas-shell">
+    <div class="dot-workspace-canvas" data-dot-workspace>
+      <div data-dot-office-stage aria-label="Escritório virtual em 3D" role="img"></div>
+      <script type="application/json" data-dot-office-stations-json>{"employee":{"status":"monitoring","status_label":"Demonstração","autonomy":0,"zero_cost":true},"metrics":{"pending":0,"retry":0,"done_24h":12,"success_24h":100,"processing_agents":5,"needs_user":0},"office":{"future_staffing":[{"id":"demo-manager","name":"Dot Gerente","station":"manager","department":"manager","enabled":true,"meta":{"seat_index":0}},{"id":"demo-operations-1","name":"Dot Operações 1","station":"operations","department":"operations","enabled":true,"meta":{"seat_index":0}},{"id":"demo-operations-2","name":"Dot Operações 2","station":"operations","department":"operations","enabled":true,"meta":{"seat_index":1}},{"id":"demo-operations-3","name":"Dot Operações 3","station":"operations","department":"operations","enabled":true,"meta":{"seat_index":2}},{"id":"demo-social-1","name":"Dot Social 1","station":"social","department":"social","enabled":true,"meta":{"seat_index":0}},{"id":"demo-social-2","name":"Dot Social 2","station":"social","department":"social","enabled":true,"meta":{"seat_index":1}},{"id":"demo-content-1","name":"Dot Conteúdo 1","station":"content","department":"content","enabled":true,"meta":{"seat_index":0}},{"id":"demo-content-2","name":"Dot Conteúdo 2","station":"content","department":"content","enabled":true,"meta":{"seat_index":1}},{"id":"demo-content-3","name":"Dot Conteúdo 3","station":"content","department":"content","enabled":true,"meta":{"seat_index":2}},{"id":"demo-seo-1","name":"Dot SEO \u0026 Google 1","station":"seo","department":"seo","enabled":true,"meta":{"seat_index":0}},{"id":"demo-seo-2","name":"Dot SEO \u0026 Google 2","station":"seo","department":"seo","enabled":true,"meta":{"seat_index":1}},{"id":"demo-seo-3","name":"Dot SEO \u0026 Google 3","station":"seo","department":"seo","enabled":true,"meta":{"seat_index":2}},{"id":"demo-engineering-1","name":"Dot Engenharia 1","station":"engineering","department":"engineering","enabled":true,"meta":{"seat_index":0}},{"id":"demo-engineering-2","name":"Dot Engenharia 2","station":"engineering","department":"engineering","enabled":true,"meta":{"seat_index":1}}]},"agents":[{"id":"demo-manager","station":"manager","department":"manager","enabled":true,"meta":{"seat_index":0},"current_job_id":1000,"job_status":"processing","behavior":{"mode":"working"}},{"id":"demo-operations-1","station":"operations","department":"operations","enabled":true,"meta":{"seat_index":0},"current_job_id":0,"job_status":"idle","behavior":{"mode":"idle"}},{"id":"demo-operations-2","station":"operations","department":"operations","enabled":true,"meta":{"seat_index":1},"current_job_id":1002,"job_status":"processing","behavior":{"mode":"working"}},{"id":"demo-operations-3","station":"operations","department":"operations","enabled":true,"meta":{"seat_index":2},"current_job_id":0,"job_status":"idle","behavior":{"mode":"idle"}},{"id":"demo-social-1","station":"social","department":"social","enabled":true,"meta":{"seat_index":0},"current_job_id":1004,"job_status":"processing","behavior":{"mode":"working"}},{"id":"demo-social-2","station":"social","department":"social","enabled":true,"meta":{"seat_index":1},"current_job_id":0,"job_status":"idle","behavior":{"mode":"idle"}},{"id":"demo-content-1","station":"content","department":"content","enabled":true,"meta":{"seat_index":0},"current_job_id":0,"job_status":"idle","behavior":{"mode":"idle"}},{"id":"demo-content-2","station":"content","department":"content","enabled":true,"meta":{"seat_index":1},"current_job_id":1007,"job_status":"processing","behavior":{"mode":"working"}},{"id":"demo-content-3","station":"content","department":"content","enabled":true,"meta":{"seat_index":2},"current_job_id":0,"job_status":"idle","behavior":{"mode":"idle"}},{"id":"demo-seo-1","station":"seo","department":"seo","enabled":true,"meta":{"seat_index":0},"current_job_id":0,"job_status":"idle","behavior":{"mode":"idle"}},{"id":"demo-seo-2","station":"seo","department":"seo","enabled":true,"meta":{"seat_index":1},"current_job_id":1010,"job_status":"processing","behavior":{"mode":"working"}},{"id":"demo-seo-3","station":"seo","department":"seo","enabled":true,"meta":{"seat_index":2},"current_job_id":0,"job_status":"idle","behavior":{"mode":"idle"}},{"id":"demo-engineering-1","station":"engineering","department":"engineering","enabled":true,"meta":{"seat_index":0},"current_job_id":0,"job_status":"idle","behavior":{"mode":"idle"}},{"id":"demo-engineering-2","station":"engineering","department":"engineering","enabled":true,"meta":{"seat_index":1},"current_job_id":0,"job_status":"idle","behavior":{"mode":"idle"}}],"stations":[{"key":"manager","label":"Gerência","status":"monitoring","detail":"Demonstração com dados fictícios; nenhum processo real está conectado.","metrics":[{"label":"Funcionários","value":1},{"label":"Executando","value":0}],"url":"#"},{"key":"operations","label":"Operações","status":"monitoring","detail":"Demonstração com dados fictícios; nenhum processo real está conectado.","metrics":[{"label":"Funcionários","value":3},{"label":"Executando","value":0}],"url":"#"},{"key":"social","label":"Social","status":"monitoring","detail":"Demonstração com dados fictícios; nenhum processo real está conectado.","metrics":[{"label":"Funcionários","value":2},{"label":"Executando","value":0}],"url":"#"},{"key":"content","label":"Conteúdo","status":"monitoring","detail":"Demonstração com dados fictícios; nenhum processo real está conectado.","metrics":[{"label":"Funcionários","value":3},{"label":"Executando","value":0}],"url":"#"},{"key":"seo","label":"SEO \u0026 Google","status":"monitoring","detail":"Demonstração com dados fictícios; nenhum processo real está conectado.","metrics":[{"label":"Funcionários","value":3},{"label":"Executando","value":0}],"url":"#"},{"key":"engineering","label":"Engenharia","status":"monitoring","detail":"Demonstração com dados fictícios; nenhum processo real está conectado.","metrics":[{"label":"Funcionários","value":2},{"label":"Executando","value":0}],"url":"#"}],"team":{"total":14,"enabled":14},"task_board":[{"agent_name":"Dot Social","label":"Preparando conteúdo fictício","status":"processing","progress":58},{"agent_name":"Dot SEO","label":"Verificando exemplo de auditoria","status":"processing","progress":36}]}</script>
+      <div class="dot-canvas-help"><span><i class="blue"></i> Arraste para girar · role para zoom · clique em uma mesa</span></div>
+    </div>
+    <aside class="dot-station-drawer" aria-live="polite">
+      <p class="eyebrow">DEPARTAMENTOS</p>
+      <h2 data-demo-station-title>Selecione uma área</h2>
+      <p data-demo-station-detail>Clique no escritório para aproximar a câmera e acompanhar o estado fictício de cada setor.</p>
+      <div class="mini-stats">
+        <div><small>Estações</small><strong>14</strong></div>
+        <div><small>Setores</small><strong>6</strong></div>
+        <div><small>Motor</small><strong>3D</strong></div>
+      </div>
+      <p class="footer-note">Os movimentos desta demonstração não consomem APIs de IA nem geram jobs. A versão privada da Cotativa continua responsável pelos dados operacionais reais.</p>
+    </aside>
+  </section>
+  <footer>Dot Office Premium Diorama · Código de apresentação público · Backend da Cotativa permanece privado.</footer>
+</main>
+<script type="module" src="../assets/dot-office-bootstrap.js"></script>
+<script type="module" src="demo.js"></script>
+</body>
+</html>
