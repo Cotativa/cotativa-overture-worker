@@ -1,0 +1,12 @@
+{
+  "name": "@cotativa/dot-office",
+  "version": "4.29.48",
+  "private": true,
+  "type": "module",
+  "description": "Standalone visual engine, synthetic demo and tests for Cotativa DOT Office",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check assets/dot-office-engine3-plan.js && node --check assets/dot-office-engine3-behavior.js && node --check assets/dot-office-engine3.js && node --check assets/dot-office-bootstrap.js",
+    "verify": "npm run check && npm test"
+  }
+}
