@@ -128,6 +128,7 @@ const navigation=new THREE.Group();
 navigation.name='office3-navigation';
 world.add(navigation);
 let navigationVisible=false;
+let renderPaused=false;
 navigation.visible=false;
 
 const stationHitMeshes=[];
@@ -1253,6 +1254,7 @@ window.DotOfficeEngine={
   focusStation,
   resetView,
   toggleNavigation(force){return setNavigationVisible(typeof force==='boolean'?force:!navigationVisible);},
+  setRenderPaused(value){renderPaused=Boolean(value);return renderPaused;},
   getState(){
     return {
       renderer:'office-engine-3',
@@ -1283,7 +1285,7 @@ setTimeout(()=>loading.remove(),480);
 const clock=new THREE.Clock();
 function animate(){
   requestAnimationFrame(animate);
-  if(document.hidden){clock.getDelta();return;}
+  if(document.hidden||renderPaused){clock.getDelta();return;}
   const dt=clock.getDelta();
   const elapsed=clock.elapsedTime;
   if(dt>.001){
