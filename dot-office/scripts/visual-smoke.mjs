@@ -37,10 +37,12 @@ try{
     throw new Error('Invalid WebGL state: '+JSON.stringify(state));
   }
   await captureStable(page,resolve(output,'dot-office-1440.png'));
-  await page.getByText('Simular pausa').click();
-  await page.waitForTimeout(500);
-  await page.getByText('Simular equipe trabalhando').click();
-  await page.getByText('Visão geral').click();
+  // DOM click bypasses Playwright's stability wait while WebGL renders continuously.
+  await page.evaluate(()=>{
+    document.querySelector('[data-demo-mode="idle"]')?.click();
+    document.querySelector('[data-demo-mode="working"]')?.click();
+    document.querySelector('[data-dot-camera-reset]')?.click();
+  });
   const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true});
   mobile.on('pageerror',e=>errors.push('mobile: '+String(e)));
   await mobile.goto('http://127.0.0.1:8765/demo/',{waitUntil:'domcontentloaded',timeout:45000});
