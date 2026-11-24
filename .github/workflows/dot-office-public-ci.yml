@@ -38,6 +38,23 @@ jobs:
           ! grep -E '(fetch\(|XMLHttpRequest|/admin/api/)' dot-office/demo/demo.js
           echo DOT_OFFICE_PUBLIC_SOURCE_OK
 
+  public-php-visual-contract:
+    name: Dot Office — public PHP 8.5 visual contract (no private code)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+      - name: Syntax validation of public-only PHP contract
+        run: |
+          php -l dot-office/php/visual-contract.php
+          php -l dot-office/tests/php-visual-contract-smoke.php
+      - name: Execute synthetic visual snapshot and safe JSON tests
+        run: php dot-office/tests/php-visual-contract-smoke.php
+
   visual-webgl-regression:
     name: Dot Office — desktop + mobile WebGL
     needs: public-engine-regression
