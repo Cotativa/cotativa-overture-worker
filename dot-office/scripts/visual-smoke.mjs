@@ -43,10 +43,13 @@ try{
     document.querySelector('[data-demo-mode="working"]')?.click();
     document.querySelector('[data-dot-camera-reset]')?.click();
   });
+  // Release the desktop WebGL context before allocating the mobile scene.
+  // Running two live WebGL offices in parallel can exhaust the CI software GPU.
+  await page.close();
   const mobile=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true});
   mobile.on('pageerror',e=>errors.push('mobile: '+String(e)));
   await mobile.goto('http://127.0.0.1:8765/demo/',{waitUntil:'domcontentloaded',timeout:45000});
-  await mobile.waitForFunction(()=>window.DotOfficeEngine?.getState?.().humans===14,{timeout:70000});
+  await mobile.waitForFunction(()=>window.DotOfficeEngine?.getState?.().humans===14,{timeout:55000});
   await captureStable(mobile,resolve(output,'dot-office-mobile.png'));
   const m=await mobile.evaluate(()=>window.DotOfficeEngine.getState());
   if(m.humans!==14||m.stations!==14)throw new Error('Invalid mobile state '+JSON.stringify(m));
