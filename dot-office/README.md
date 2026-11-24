@@ -15,6 +15,8 @@ Este diretório contém o **projeto visual do Dot Office**: o escritório 3D em 
 - `assets/dot-office-*.js` — motores visuais e simulação anteriores, conservados para referência/compatibilidade. **Não integram a renderização oficial da versão 3.**
 - `demo/` — ambiente independente usando **apenas dados sintéticos**. Nenhuma chamada ao painel privado.
 - `tests/` — regressões de planta, estados, isolamento e verificação de fonte.
+- `php/visual-contract.php` — contrato PHP público e **isolado**, somente para demonstrar e validar snapshots visuais fictícios.
+- `tests/php-visual-contract-smoke.php` — testes em PHP 8.5 do contrato sintético e da codificação JSON segura contra XSS; **não** valida os arquivos PHP privados do painel.
 - `THIRD_PARTY_NOTICES.txt` — atribuições e licenças das dependências e referências.
 - `.github/workflows/dot-office-public-ci.yml` (raiz do repositório) — lint, testes e smoke do projeto público.
 
@@ -49,6 +51,14 @@ As versões de código copiadas para cá precisam ser sincronizadas por release 
 ## Segurança
 
 Todos os dados e interações da demo são fictícios. Não publicar logs privados, clientes, tokens, URLs assinadas, arquivos do banco ou resultados comerciais. O pacote não inclui credenciais nem acesso ao backend. O projeto público expõe seu **código-fonte**; isso não equivale, por si só, a conceder uma licença geral de redistribuição. As licenças de terceiros constam de `THIRD_PARTY_NOTICES.txt`.
+
+## Limite do PHP Lint público
+
+O workflow público usa PHP 8.5 para testar **apenas** `php/visual-contract.php` e seu teste sintético. Esse lint nunca recebe `admin/app/dot_agent.php`, `admin/app/core.php`, tokens ou configurações reais.
+
+Os arquivos privados são validados **no ambiente privado** pelo Deploy Center da Cotativa, que baixa os arquivos para staging, verifica hashes e usa `token_get_all(TOKEN_PARSE)` do PHP de produção antes de aplicar qualquer alteração. O lint CLI é uma confirmação complementar. Portanto, **uma execução verde aqui não substitui o lint do release privado**.
+
+Para preservar a segurança do painel autenticado, a versão privada **não deve executar diretamente scripts de CDN ou GitHub**: deve servir arquivos JS já revisados e espelhados em `/admin/assets/` no mesmo domínio.
 
 ## GitHub Actions
 
