@@ -1,8 +1,24 @@
 import {chromium} from 'playwright';
-import {mkdir} from 'node:fs/promises';
+import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 const output=resolve('artifacts');
 await mkdir(output,{recursive:true});
+async function captureStable(page,path){
+  await page.evaluate(()=>window.DotOfficeEngine?.setRenderPaused?.(true));
+  await page.waitForTimeout(350);
+  try{
+    await page.screenshot({path,fullPage:false,animations:'disabled',timeout:15000});
+  }catch(err){
+    console.warn('Default screenshot unavailable; retrying via Chrome DevTools:',String(err).slice(0,200));
+    const cdp=await page.context().newCDPSession(page);
+    const result=await cdp.send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false,fromSurface:false});
+    if(!result?.data)throw new Error('Chrome DevTools screenshot was empty');
+    await writeFile(path,Buffer.from(result.data,'base64'));
+    await cdp.detach();
+  }finally{
+    await page.evaluate(()=>window.DotOfficeEngine?.setRenderPaused?.(false));
+  }
+}
 const browser=await chromium.launch({
   headless:true,
   args:['--use-gl=angle','--use-angle=swiftshader','--enable-webgl','--ignore-gpu-blocklist']
@@ -20,7 +36,7 @@ try{
   if(state.stations!==14||state.humans!==14||state.humanRenderer!=='diorama-mesh'){
     throw new Error('Invalid WebGL state: '+JSON.stringify(state));
   }
-  await page.screenshot({path:resolve(output,'dot-office-1440.png'),fullPage:true});
+  await captureStable(page,resolve(output,'dot-office-1440.png'));
   await page.getByText('Simular pausa').click();
   await page.waitForTimeout(500);
   await page.getByText('Simular equipe trabalhando').click();
@@ -29,7 +45,7 @@ try{
   mobile.on('pageerror',e=>errors.push('mobile: '+String(e)));
   await mobile.goto('http://127.0.0.1:8765/demo/',{waitUntil:'domcontentloaded',timeout:45000});
   await mobile.waitForFunction(()=>window.DotOfficeEngine?.getState?.().humans===14,{timeout:70000});
-  await mobile.screenshot({path:resolve(output,'dot-office-mobile.png'),fullPage:true});
+  await captureStable(mobile,resolve(output,'dot-office-mobile.png'));
   const m=await mobile.evaluate(()=>window.DotOfficeEngine.getState());
   if(m.humans!==14||m.stations!==14)throw new Error('Invalid mobile state '+JSON.stringify(m));
   if(errors.length)throw new Error('Browser errors: '+errors.slice(0,5).join(' | '));
